@@ -10,6 +10,7 @@ module.exports = {
       extend: {
         fontFamily: {
             sans: ['var(--font-quicksand)', ...fontFamily.sans],
+            "Poppins": ['var(--font-poppins)'],
             "Quicksand": ['var(--font-quicksand)'],
             "Roboto": ['var(--font-roboto)'],
         },
