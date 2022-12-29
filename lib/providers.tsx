@@ -1,25 +1,32 @@
 import { Google, GitHub, Twitter } from "@mui/icons-material";
+import { SiMicrosoft, SiSpotify, SiGitlab } from "react-icons/si";
+
+let standardClasses = "text-xl"
+
 const pages = {
     "google": {
         displayName: "Google",
-        icon: <Google />
+        icon: <Google className={standardClasses} />
     },
     "spotify": {
-        displayName: "Spotify"
+        displayName: "Spotify",
+        icon: <SiSpotify className={standardClasses} />
     },
     "azure": {
-        displayName: "Microsoft"
+        displayName: "Microsoft",
+        icon: <SiMicrosoft className={standardClasses} />
     },
     "twitter": {
         displayName: "Twitter",
-        icon: <Twitter />
+        icon: <Twitter className={standardClasses} />
     },
     "github": {
         displayName: "Github",
-        icon: <GitHub />
+        icon: <GitHub className={standardClasses} />
     },
     "gitlab": {
-        displayName: "Gitlab"
+        displayName: "Gitlab",
+        icon: <SiGitlab className={standardClasses} />
     }
 }
 

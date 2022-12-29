@@ -41,13 +41,13 @@ const Nav: React.FC<Props> = (props) => {
                 </div>
                 <div className="flex flex-row items-center text-right">
                     {!user && (
-                        <Link className="text-lg font-medium text-gray-800 dark:text-gray-300 hover:text-gray-600 hover:dark:text-gray-200" href="/login">Login</Link>
+                        <Link className="text-lg font-medium text-gray-800 dark:text-gray-300 hover:text-gray-600 hover:dark:text-gray-200" href="/auth/signin">Sign in</Link>
                     )}
                     {user && (
                         <span className="flex flex-row items-center gap-x-4 text-lg font-medium text-gray-800 dark:text-gray-300 hover:text-gray-600 hover:dark:text-gray-200">
                             Hello, {user?.user_metadata?.full_name}
                             <button onClick={toggleUserInfo}>
-                                <img className="rounded-xl w-12" alt="Avatar name" src={user?.user_metadata?.avatar_url} />
+                                <img referrerPolicy="no-referrer" className="rounded-xl w-12" alt="Avatar name" src={user?.user_metadata?.avatar_url} />
                             </button>
                         </span>
                     )}
@@ -55,7 +55,7 @@ const Nav: React.FC<Props> = (props) => {
             </nav>
             <div className={`${userInfoOpened ? "flex" : "hidden"} items- flex-col gap-y-4 absolute right-0 bg-gray-300 dark:bg-nav-bg transition ease-in-out rounded-bl-xl z-[40]`}>
                 <div className="flex items-center flex-col gap-y-4 px-16 pt-8 pb-2">
-                    <img className="rounded-xl w-24" alt="Avatar name" src={user?.user_metadata?.avatar_url} />
+                    <img referrerPolicy="no-referrer" className="rounded-xl w-24" alt="Avatar name" src={user?.user_metadata?.avatar_url} />
                     <div>
                         <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200 text-center">
                             {user?.user_metadata?.full_name}
@@ -89,7 +89,7 @@ const Nav: React.FC<Props> = (props) => {
                     } finally {
                         setLoading(false)
                         setUserInfoOpened(false) // we need this to make it so if they logout it closes the user info page <3
-                        router.reload()
+                        router.push("/")
                     }
                 }} variant="outlined" startIcon={<Logout />} className="mx-12 dark:text-gray-300 text-gray-800 border-gray-800 hover:border-gray-700 dark:border-gray-300 hover:dark:border-gray-200 font-sans font-bold normal-case">
                     Sign out
