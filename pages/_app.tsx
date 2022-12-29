@@ -14,8 +14,8 @@ const roboto = Roboto({
 
 export default function Application({ Component, pageProps }) {
   return <>
-    <div className={`dark ${quicksand.variable} ${roboto.variable} font-sans`}>
-        <div className="dark:bg-[#262626] min-w-screen min-h-screen text-white">
+    <div className={`dark:bg-[#262626] dark:text-white ${quicksand.variable} ${roboto.variable} font-sans`}>
+        <div className="w-full min-w-screen min-h-screen h-full">
             <Nav />
             <Component {...pageProps} />
         </div>
