@@ -88,7 +88,8 @@ const Nav: React.FC<Props> = (props) => {
                             })
                     } finally {
                         setLoading(false)
-                        router.reload();
+                        setUserInfoOpened(false) // we need this to make it so if they logout it closes the user info page <3
+                        router.reload()
                     }
                 }} variant="outlined" startIcon={<Logout />} className="mx-12 dark:text-gray-300 text-gray-800 border-gray-800 hover:border-gray-700 dark:border-gray-300 hover:dark:border-gray-200 font-sans font-bold normal-case">
                     Sign out
