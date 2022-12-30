@@ -1,6 +1,7 @@
 import type { NextPage } from "next"
 import { useEffect } from "react"
 import useUser from "../hooks/useUser";
+import Icon from "@mui/material/Icon"
 import Link from "next/link";
 import { supabase } from "../lib/supabase";
 
@@ -10,6 +11,7 @@ const Home: NextPage = (data) => {
 
     return (
         <>
+        <Icon>github</Icon>
         </>
     )
 
