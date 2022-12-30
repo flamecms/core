@@ -14,13 +14,13 @@ const ForumHome: NextPage = (data: any) => {
                 data.forums.map((forum) => (
                         <div key={forum.id}>
                             <h1>{forum.title}</h1>
-                            (forum.description != null && <p>{forum.description}</p>)
+                            <p>{forum.description}</p>
 
                             <div id="categories">
                                 {
                                     forum.categories.map((category) => (
                                         <div key={category.id}>
-                                            (category.icon != null && <Icon>{category.icon}</Icon>)
+                                            <Icon>{category.icon}</Icon>
 
                                             <Link href={"/forum/category/" + category.slug}><h1>{category.title}</h1></Link>
                                             <h3>{category.description}</h3>
@@ -38,24 +38,23 @@ const ForumHome: NextPage = (data: any) => {
 
 export async function getServerSideProps(context) {
     const user = await supabase.auth.user()
-    let { data: forums, error } = await supabase
+    let { data: forums, error: forumError } = await supabase
         .from("forums")
         .select(`id, title, description`)
 
-    let data = await forums?.map(async (forum) => {
-        const { data: categories, error } = await supabase
+    const { data: categories, error: categoryError } = await supabase
             .from("forum_categories")
             .select(`id, title, description, slug, icon, forum_id`)
-            .eq("forum_id", forum.id)
-        forum.categories = categories
-        return forum
+
+    forums.forEach(forum => {
+        forum.categories = categories.filter(t => t.id == forum.id)
     })
 
-    console.log(data)
+    console.log(forums)
 
     return {
         props: {
-            forums: data
+            forums
         }
     }
 }
