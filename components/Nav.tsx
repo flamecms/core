@@ -23,7 +23,7 @@ const Nav: React.FC<Props> = (props) => {
 
     return (
         <>
-            <nav className="px-4 dark:bg-[#1a1a1a] bg-gray-300 py-4 w-full drop-shadow-xl flex justify-between items-center z-[50]">
+            <nav className="px-4 dark:bg-primary bg-gray-300 py-4 w-full drop-shadow-xl flex justify-between items-center z-[50]">
                 <div className="flex flex-row items-center text-left gap-x-4">
                     <Menu className="text-gray-800 dark:text-gray-300" />
                     <Link href="/" className="text-xl font-bold text-gray-800 dark:text-gray-200">Flame</Link>
@@ -53,7 +53,7 @@ const Nav: React.FC<Props> = (props) => {
                     )}
                 </div>
             </nav>
-            <div className={`${userInfoOpened ? "flex" : "hidden"} drop-shadow-xl flex-col gap-y-4 absolute right-0 bg-gray-300 dark:bg-nav-bg transition ease-in-out rounded-bl-xl z-[40]`}>
+            <div className={`${userInfoOpened ? "flex" : "hidden"} drop-shadow-xl flex-col gap-y-4 absolute right-0 bg-gray-300 dark:bg-primary transition ease-in-out rounded-bl-xl z-[40]`}>
                 <div className="flex items-center flex-col gap-y-4 px-16 pt-8 pb-2">
                     <img referrerPolicy="no-referrer" className="rounded-xl w-24" alt="Avatar name" src={user?.user_metadata?.avatar_url} />
                     <div>

@@ -15,8 +15,8 @@ module.exports = {
             "Roboto": ['var(--font-roboto)'],
         },
         colors: {
-            "flame-bg": "",
-            "nav-bg": "#1a1a1a" 
+            "accent": "#262626",
+            "primary": "#1a1a1a" 
         }
       },
     },
