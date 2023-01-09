@@ -3,7 +3,7 @@ import { useEffect } from "react"
 import useUser from "../../hooks/useUser"
 import Link from "next/link"
 import Icon from "@mui/material/Icon"
-import { supabase } from "../../lib/supabase"
+import { supabase, getSupabase } from "../../lib/supabase"
 import Breadcrumbs from "../../components/Breadcrumbs"
 
 const renderNotification = (notification) => {
@@ -45,12 +45,9 @@ const Notifications: NextPage = (data: any) => {
 
 export async function getServerSideProps(context) {
     const user = await supabase.auth.user() // this returns null for some reason. Absolteuly no clue why somebody should take a look at it.
-
     let { data: notifications, error: forumError } = await supabase
         .from("notifications")
         .select(`*`)
-
-    console.log(notifications)
 
     return {
         props: {

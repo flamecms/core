@@ -11,9 +11,12 @@ const ForumThread = (data) => {
 
     return (
             <>
-                <div className="flex flex-col items-center">
-                    <div className="lg:min-w-[1100px]">
-                        <h1 className="text-3xl font-medium">{data.profile.full_name}</h1>
+                <div className="flex flex-col items-center mt-8">
+                    <div className="lg:min-w-[1100px] flex flex-col gap-y-2">
+                        <div className="flex flex-row items-center gap-x-4">
+                            <img referrerPolicy="no-referrer" className="rounded-xl w-16 " alt="Avatar name" src={data?.profile?.avatar_url} />
+                            <h1 className="text-3xl font-bold">{data?.profile?.full_name}</h1>
+                        </div>
                         <h3 className="text-2xl font-medium">something here idk aybe a bio?</h3>
                         <div className="flex flex-col pt-4 gap-2">
                             this is where u put the content

@@ -27,7 +27,7 @@ const Nav: React.FC<Props> = (props) => {
 
         async function handleNotifications(router) {
             setLoading(true)
-            console.log("Loading notifications for " + localUser.user_metadata.full_name)
+            console.log("Loading notifications for " + localUser?.user_metadata?.full_name)
             if (localUser) {
                 const { data: retrieved, error } = await supabase
                     .from("notifications")
