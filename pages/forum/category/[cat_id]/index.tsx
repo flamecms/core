@@ -1,26 +1,38 @@
 import { useRouter } from 'next/router'
 import { supabase } from "../../../../lib/supabase"
-import Link from "next/link";
+import Link from "next/link"
+import Icon from "@mui/material/Icon"
 
 const ForumCategory = (data) => {
     return (
-        <div className="text-center">
-            <h2>{data.category.title}</h2>
-            <p>{data.category.description}</p>
-            <br/>
+        <div className="flex flex-col items-center">
+            <div className="lg:min-w-[1100px]">
+                <h1 className="text-3xl font-medium">{data.category.title}</h1>
+                <h3 className="text-2xl font-medium">{data.category.description}</h3>
+                <div className="flex flex-col pt-4">
+                    {
+                        <div className="flex flex-col dark:bg-primary px-6 py-6 rounded-xl">
+                            <div id="threads" className="flex flex-col gap-y-4">
+                                {
+                                    data.category.threads.map((thread) => (
+                                        <div className="" key={thread.id}>
+                                            <div className="flex flex-row gap-x-2 text-lg items-center">
+                                                <Icon className="text-gray-800 dark:text-gray-300">chatbubble</Icon>
+                                                <Link href={"/forum/thread/" + thread.id} className="font-bold"><h1>{thread.title}</h1></Link>
+                                            </div>
 
-            <div id="threads">
-                {
-                    data.category.threads.map((thread) => (
-                            <div key={thread.id}>
-                                <Link href={"/forum/thread/" + thread.id}><h1>{thread.title}</h1></Link>
-                                <h3>{thread.body}</h3>
-
-                                <h5>{thread.author.full_name}</h5>
-                                <img referrerPolicy="no-referrer" className="rounded-xl w-12" alt="Avatar name" src={thread.author?.user_metadata?.avatar_url} />
+                                            <div className="flex flex-row gap-x-2 text-lg items-center">
+                                                <h2 className="text-md font-medium text-gray-800 dark:text-gray-200 text-center">{thread.profiles.full_name}</h2>
+                                                <span> · </span>
+                                                <h2 className="text-md font-medium text-gray-800 dark:text-gray-200 text-center">Last Active {new Date(thread?.updated_at || "1 January 1970").toLocaleDateString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
                             </div>
-                            ))
-                }
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     )
@@ -42,7 +54,7 @@ export async function getServerSideProps(context) {
 
     console.log(`cat: ${JSON.stringify(category)}`)
 
-    const { data: threads, error: threadError } = await supabase
+    let { data: threads, error: threadError } = await supabase
             .from("forum_threads")
             .select(`
                 id,
@@ -52,12 +64,9 @@ export async function getServerSideProps(context) {
                 created_at,
                 updated_at,
                 author_uid,
-                users (
-                    id,
+                profiles (
                     full_name,
-                    user_metadata(
-                        avatar_url
-                    )
+                    avatar_url
                 )
             `).eq("category_id", category?.id)
 

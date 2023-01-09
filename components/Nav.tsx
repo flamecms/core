@@ -32,7 +32,7 @@ const Nav: React.FC<Props> = (props) => {
                             Object.keys(pages).map((page, index) => (
                                 <Link href={page} key={index} className="text-lg font-medium text-gray-800 dark:text-gray-300 hover:text-gray-600 hover:dark:text-gray-200">
                                     <Tooltip title={<span className="font-Quicksand">{pages[page].displayName}</span>} placement="bottom">
-                                        <span className={router.pathname.substring(1) === (page.substring(1)) ? "text-amber-800 hover:text-amber-900 dark:text-amber-500 hover:dark:text-amber-600" : "text-gray-800 hover:text-gray-700 dark:text-gray-300 hover:dark:text-gray-400"}>{pages[page].icon}</span>
+                                        <span className={router.pathname.startsWith(page) && page != "/" || page == "/" && router.pathname == "/" ? "text-amber-800 hover:text-amber-900 dark:text-amber-500 hover:dark:text-amber-600" : "text-gray-800 hover:text-gray-700 dark:text-gray-300 hover:dark:text-gray-400"}>{pages[page].icon}</span>
                                     </Tooltip>
                                 </Link>
                             ))
@@ -41,7 +41,7 @@ const Nav: React.FC<Props> = (props) => {
                 </div>
                 <div className="flex flex-row items-center text-right">
                     {!user && (
-                        <Link className="text-lg font-medium text-gray-800 dark:text-gray-300 hover:text-gray-600 hover:dark:text-gray-200" href="/auth/signin">Sign in</Link>
+                        <Link className="text-lg font-medium text-gray-800 dark:text-gray-300 hover:text-gray-600 hover:dark:text-gray-200" href="/auth/login">Sign in</Link>
                     )}
                     {user && (
                         <span className="flex flex-row items-center gap-x-4 text-lg font-medium text-gray-800 dark:text-gray-300 hover:text-gray-600 hover:dark:text-gray-200">

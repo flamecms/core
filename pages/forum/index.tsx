@@ -1,17 +1,18 @@
 import type { NextPage } from "next"
 import { useEffect } from "react"
-import useUser from "../../hooks/useUser";
-import Link from "next/link";
+import useUser from "../../hooks/useUser"
+import useProfile from "../../hooks/useProfile"
+import Link from "next/link"
 import Icon from "@mui/material/Icon"
-import { supabase } from "../../lib/supabase";
+import { supabase } from "../../lib/supabase"
 
 const ForumHome: NextPage = (data: any) => {
     const { user, loading, setLoading } = useUser()
 
     return (
         <div className="flex flex-col items-center">
-            <div className="lg:min-w-[1000px]">
-                <h1 className="text-3xl font-medium">Messageboards</h1>
+            <div className="lg:min-w-[1100px]">
+                <h1 className="text-3xl font-medium">Forum Categories</h1>
                 <div className="flex flex-col pt-4">
                     {
                         data.forums.map((forum) => (

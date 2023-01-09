@@ -29,6 +29,26 @@ const useUser = () => {
             }
             setUser(supabase.auth.user() || undefined)
             setToken(session?.access_token)
+
+            let { data: profile, error, status } = await supabase
+                .from("profiles")
+                .select("*")
+                .eq("id", newUser.id)
+                .single()
+
+            if (error && status != 406) throw error
+            if (!profile.full_name) {
+                await supabase.from("profiles").upsert({
+                    id: newUser.id,
+                    username: newUser.user_metadata.username,
+                    full_name: newUser.user_metadata.full_name,
+                    email: newUser.email,
+                    avatar_url: newUser.user_metadata.avatar_url,
+                    updated_at: new Date()
+                })
+
+                console.log("Created Flame profile for " + profile.id)
+            }
         })
     }, [supabase])
 
