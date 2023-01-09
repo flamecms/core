@@ -2,6 +2,7 @@ import { FC, useState, useRef } from "react"
 import { useAsync } from "react-async"
 import { Tooltip, IconButton, TextField, InputAdornment, Button, Badge, Snackbar, Alert } from "@mui/material"
 import { Close, Logout, Menu, Notifications, Settings, Search } from "@mui/icons-material"
+import MailIcon from '@mui/icons-material/Mail';
 import useUser from "../hooks/useUser"
 import { supabase } from "../lib/supabase"
 import { useRouter } from "next/router"
@@ -103,7 +104,7 @@ const Nav: React.FC<Props> = (props) => {
                     )}
                 </div>
             </nav>
-            <div className={`${userInfoOpened ? "flex" : "hidden"} w-full sm:w-auto drop-shadow-xl flex-col gap-y-4 sm:absolute right-0 bg-gray-300 dark:bg-primary transition ease-in-out rounded-bl-xl z-[40]`}>
+            <div id="user_info" className={`${userInfoOpened ? "flex" : "hidden"} w-full sm:w-auto drop-shadow-xl flex-col gap-y-4 sm:absolute right-0 bg-gray-300 dark:bg-primary transition ease-in-out rounded-bl-xl z-[40]`}>
                 <div className="flex items-center flex-col gap-y-4 px-16 pt-8 pb-2">
                     <img referrerPolicy="no-referrer" className="rounded-xl w-24" alt="Avatar name" src={user?.user_metadata?.avatar_url} />
                     <div>
@@ -121,6 +122,10 @@ const Nav: React.FC<Props> = (props) => {
                             <Notifications />
                         </Badge>
                         Notifications
+                    </div>
+                    <div className="flex flex-row justify-center md:justify-start gap-x-4">
+                        <MailIcon />
+                        Messages
                     </div>
                     <div className="flex flex-row justify-center md:justify-start gap-x-4">
                         <Settings />
