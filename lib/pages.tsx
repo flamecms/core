@@ -1,5 +1,4 @@
-import { Home, Payments } from "@mui/icons-material";
-import ForumIcon from '@mui/icons-material/Forum';
+import { Home, Storefront, Forum } from "@mui/icons-material";
 const pages = {
     "/": {
         displayName: "Home",
@@ -8,17 +7,12 @@ const pages = {
     },
     "/forum": {
         displayName: "Forum",
-        icon: <ForumIcon />,
+        icon: <Forum />,
         external: false
     },
     "/shop": {
         displayName: "Shop",
-        icon: <Payments />,
-        external: false
-    },
-    "/shop": {
-        displayName: "Shop",
-        icon: <Payments />,
+        icon: <Storefront />,
         external: false
     }
 }
