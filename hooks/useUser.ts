@@ -37,10 +37,10 @@ const useUser = () => {
                 .single()
 
             if (error && status != 406) throw error
-            if (!profile.full_name) {
+            if (!profile.username) {
                 await supabase.from("profiles").upsert({
                     id: newUser.id,
-                    username: newUser.user_metadata.username,
+                    username: newUser.user_metadata.full_name.toLowerCase(),
                     full_name: newUser.user_metadata.full_name,
                     email: newUser.email,
                     avatar_url: newUser.user_metadata.avatar_url,
