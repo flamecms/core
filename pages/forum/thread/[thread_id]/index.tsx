@@ -23,7 +23,7 @@ const ForumThread = (data) => {
                     <div className="lg:min-w-[1100px]">
                         <Breadcrumbs pages={["Forum", "Thread", data.thread.title]}/>
 
-                        <h1 className="text-3xl font-medium">{data.thread.title}</h1>
+                        <h1 id="thread_title" className="text-3xl font-medium">{data.thread.title}</h1>
                         <h3 className="text-2xl font-medium">Started by {data.thread.profiles.full_name}</h3>
 
                         <Pagination currentPage={data.page} pages={data.pages}/>
@@ -89,8 +89,34 @@ const ForumThread = (data) => {
                                                                 thread_id: data.thread.id
                                                             })
 
-                                                        console.log(reply_content.current.value)
-                                                        window.location = window.location
+                                                        const words = reply_content.current.value.split(" ")
+
+                                                        for (let w in words) {
+                                                            let word = words[w]
+                                                            if (word.startsWith("@")) {
+                                                                word = word.substring(1)
+
+                                                                const { data, error } = await supabase
+                                                                    .from("profiles")
+                                                                    .select("id, full_name")
+                                                                    .eq("username", word.toLowerCase())
+                                                                    .single()
+
+                                                                if (!data) return
+
+                                                                await supabase
+                                                                    .from("notifications")
+                                                                    .insert({
+                                                                        target: data.id,
+                                                                        type: "thread_mention",
+                                                                        source: window.location.href,
+                                                                        metadata: {
+                                                                            thread_title: document.getElementById("thread_title").innerHTML,
+                                                                            mentioner: user.user_metadata.full_name
+                                                                        }
+                                                                    })
+                                                            }
+                                                        }
                                                     }
                                                 }
                                                 >

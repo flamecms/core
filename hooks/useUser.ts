@@ -7,7 +7,6 @@ const useUser = () => {
     const [user, setUser] = useState<User | undefined>(undefined)
     const [loading, setLoading] = useState(true)
     const [token, setToken] = useState<any>(undefined)
-    const [notifications, setNotifications] = useState<any>([])
 
     useEffect(() => {
         const currentSesssion = supabase.auth.session()
@@ -59,34 +58,8 @@ const useUser = () => {
         user,
         loading,
         setLoading,
-        notifications,
         token
     }
-}
-
-export const runNotificationCheck = async (user, router) => {
-    console.log("running notification check")
-
-    if (user) {
-        const { data: notifications, error } = await supabase
-            .from("notifications")
-            .select("*")
-            .eq("acknowledged", false)
-            .eq("target", user.id)
-
-
-        console.log(notifications)
-
-        notifications.forEach(async (notification) => {
-            if (router.req.url == notification.source) {
-                notification.acknowledged = true
-                notifications.remove(notification)
-                await supabase.from("notifications").upsert(notification)
-            }
-        })
-
-        return notifications == undefined ? [] : notifications.replace(undefined, null)
-    } else return []
 }
 
 export default useUser

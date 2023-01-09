@@ -1,6 +1,6 @@
 import type { NextPage } from "next"
 import { useEffect } from "react"
-import useUser, { runNotificationCheck } from "../../hooks/useUser"
+import useUser from "../../hooks/useUser"
 import useProfile from "../../hooks/useProfile"
 import Link from "next/link"
 import Icon from "@mui/material/Icon"
@@ -26,7 +26,7 @@ const ForumHome: NextPage = (data: any) => {
                                     <div id="categories" className="flex flex-col gap-y-4">
                                         {
                                             forum.categories.map((category) => (
-                                                <div className="" key={category.id}>
+                                                <div className="" key={category.id + category.title}>
                                                     <div className="flex flex-row gap-x-2 text-lg">
                                                         <div className="flex flex-row gap-x-2 justify-left">
                                                             <Icon className="text-gray-800 dark:text-gray-300">{category.icon || "info"}</Icon>
@@ -77,8 +77,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
-            forums,
-            notifications: await runNotificationCheck(user, context)
+            forums
         }
     }
 }

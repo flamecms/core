@@ -1,5 +1,4 @@
-import { FC, useState, useRef } from "react"
-import { useAsync } from "react-async"
+import { FC, useState, useRef, useEffect } from "react"
 import { Tooltip, IconButton, TextField, InputAdornment, Button, Badge, Snackbar, Alert } from "@mui/material"
 import { Close, Logout, Menu, Notifications, Settings, Search } from "@mui/icons-material"
 import MailIcon from '@mui/icons-material/Mail';
@@ -17,11 +16,46 @@ interface Props {
 const Nav: React.FC<Props> = (props) => {
     const { user, loading, setLoading } = useUser()
     const [userInfoOpened, setUserInfoOpened] = useState(false)
-    const [snackbarOpen, setSnackbarOpen] = useState(true)
+    const [snackbarOpen, setSnackbarOpen] = useState(false)
     const [navbarOpened, setNavbarOpened] = useState(false)
     const router = useRouter()
 
-    const notifications = []
+    const [notifications, setNotifications] = useState([])
+
+    useEffect(() => {
+        const localUser = supabase.auth.user()
+
+        async function handleNotifications(router) {
+            setLoading(true)
+            console.log("Loading notifications for " + localUser.user_metadata.full_name)
+            if (localUser) {
+                const { data: retrieved, error } = await supabase
+                    .from("notifications")
+                    .select("*")
+                    .eq("acknowledged", false)
+                    .eq("target", localUser.id)
+
+                console.log(retrieved)
+
+                retrieved.forEach(async (notification) => {
+                    if (router.pathname == notification.source) {
+                        notification.acknowledged = true
+                        retrieved.remove(notification)
+                        await supabase.from("notifications").upsert(notification)
+                    }
+                })
+
+                return retrieved == undefined ? [] : retrieved
+            } else return []
+        }
+        handleNotifications(router).then(value => {
+            setNotifications(value)
+            setLoading(false)
+            if (value.length > 0) setSnackbarOpen(true)
+        })
+    }, [supabase])
+
+    console.log(notifications)
 
     const searchBox = useRef('')
 
@@ -190,21 +224,16 @@ const Nav: React.FC<Props> = (props) => {
             </div>
         </div>
 
-        <Snackbar open={snackbarOpen} autoHideDuration={10000} onClose={handleSnackbarClose} anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
-            {
-                notifications.length > 0 && notifications.map(notification => {
-                    switch (notification.type) {
-                        case "basic":
-                        default:
-                            return (
-                                <Alert href={notification.source} onClose={handleSnackbarClose} severity="info">
-                                    {notification.extra_data.text}
-                                </Alert>
-                        )
-                    }
-                })
-            }
-        </Snackbar>
+        {!loading && notifications.length > 0 &&
+            <Snackbar open={snackbarOpen} autoHideDuration={10000} onClose={handleSnackbarClose} anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
+                {
+                    <Alert href="/notifications" onClose={handleSnackbarClose} severity="error">
+                        <span>You have {notifications.length} unread notifications!</span><br></br>
+                        <span><Link href="/manage/notifications">Click here</Link> to read them.</span>
+                    </Alert>
+                }
+            </Snackbar>
+        }
         </>
     )
 }
