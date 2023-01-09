@@ -38,10 +38,9 @@ const Nav: React.FC<Props> = (props) => {
                 console.log(retrieved)
 
                 retrieved.forEach(async (notification) => {
-                    if (router.pathname == notification.source) {
+                    if (window.location.href == notification.source) {
                         notification.acknowledged = true
-                        retrieved.remove(notification)
-                        await supabase.from("notifications").upsert(notification)
+                        await supabase.from("notifications").update({acknowledged: true}).eq('id', notification.id)
                     }
                 })
 

@@ -14,8 +14,17 @@ const ITEMS_PER_PAGE = 10
 
 const ForumThread = (data) => {
     const { user } = useUser()
+    const router = useRouter()
 
     const reply_content = useRef('')
+
+    supabase
+      .from('forum_replies')
+      .on('INSERT', payload => {
+          console.log(payload)
+          if (payload.thread_id == data.thread.id)router.replace(router.asPath)
+      })
+      .subscribe()
 
     return (
             <>
@@ -91,6 +100,8 @@ const ForumThread = (data) => {
 
                                                         const words = reply_content.current.value.split(" ")
 
+                                                        let notified = []
+
                                                         for (let w in words) {
                                                             let word = words[w]
                                                             if (word.startsWith("@")) {
@@ -102,7 +113,9 @@ const ForumThread = (data) => {
                                                                     .eq("username", word.toLowerCase())
                                                                     .single()
 
-                                                                if (!data) return
+                                                                if (!data || notified.includes(data.id)) return
+
+                                                                notified.push(data.id)
 
                                                                 await supabase
                                                                     .from("notifications")
