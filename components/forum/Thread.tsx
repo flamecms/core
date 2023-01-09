@@ -1,5 +1,6 @@
 import { FC } from "react"
 import Icon from "@mui/material/Icon"
+import ReactMarkdown from "react-markdown"
 import Grid from "@mui/material/Unstable_Grid2"
 
 interface Props {
@@ -29,7 +30,9 @@ const Thread: React.FC<Props> = (props: Props) => {
                         </div>
                     </Grid>
                     <Grid xs={12} lg={9}>
-                        <p>{props.body}</p>
+                        <ReactMarkdown className="forum-markdown-styling">
+                            {props.body.replace(/@(\S+)/gi,'[@$1](/user/$1)')}
+                        </ReactMarkdown>
                     </Grid>
                 </Grid>
 

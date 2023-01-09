@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.forum-markdown-styling a {
+    color: rgb(192 132 252)
+}
+
 ::-webkit-scrollbar {
     @apply bg-slate-800;
     width: 16px !important;

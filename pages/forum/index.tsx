@@ -1,10 +1,11 @@
 import type { NextPage } from "next"
 import { useEffect } from "react"
-import useUser from "../../hooks/useUser"
+import useUser, { runNotificationCheck } from "../../hooks/useUser"
 import useProfile from "../../hooks/useProfile"
 import Link from "next/link"
 import Icon from "@mui/material/Icon"
 import { supabase } from "../../lib/supabase"
+import Breadcrumbs from "../../components/Breadcrumbs"
 
 const ForumHome: NextPage = (data: any) => {
     const { user, loading, setLoading } = useUser()
@@ -12,6 +13,8 @@ const ForumHome: NextPage = (data: any) => {
     return (
         <div className="flex flex-col items-center">
             <div className="lg:min-w-[1100px]">
+                <Breadcrumbs pages={["Forum"]}/>
+
                 <h1 className="text-3xl font-medium">Forum Categories</h1>
                 <div className="flex flex-col pt-4">
                     {
@@ -24,9 +27,14 @@ const ForumHome: NextPage = (data: any) => {
                                         {
                                             forum.categories.map((category) => (
                                                 <div className="" key={category.id}>
-                                                    <div className="flex flex-row gap-x-2 text-lg items-center">
-                                                        <Icon className="text-gray-800 dark:text-gray-300">{category.icon || "info"}</Icon>
-                                                        <Link href={"/forum/category/" + category.slug} className="font-bold"><h1>{category.title}</h1></Link>
+                                                    <div className="flex flex-row gap-x-2 text-lg">
+                                                        <div className="flex flex-row gap-x-2 justify-left">
+                                                            <Icon className="text-gray-800 dark:text-gray-300">{category.icon || "info"}</Icon>
+                                                            <Link href={"/forum/category/" + category.slug} className="font-bold"><h1>{category.title}</h1></Link>
+                                                        </div>
+                                                        <div className="flex flex-row gap-x-2 ml-auto">
+                                                            <span className="text-gray-900 dark:text-gray-200 font-bold">Threads: {category.threads}</span>
+                                                        </div>
                                                     </div>
                                                     <h3>{category.description}</h3>
                                                 </div>
@@ -53,15 +61,24 @@ export async function getServerSideProps(context) {
             .from("forum_categories")
             .select(`id, title, description, slug, icon, forum_id`)
 
-    forums?.forEach(forum => {
-        forum.categories = categories?.filter(t => t.forum_id == forum.id) // Was t.id before; fixed it!
+    const { data: threads, error: theadError} = await supabase
+            .from("forum_threads")
+            .select(`id, category_id`)
+
+    categories?.forEach(category => {
+        category.threads = threads.filter(t => t.category_id == category.id).length
     })
 
-    console.log(forums)
+    forums?.forEach(forum => {
+        forum.categories = categories?.filter(c => c.forum_id == forum.id) // Was t.id before; fixed it!
+    })
+
+    console.log(JSON.stringify(forums))
 
     return {
         props: {
-            forums
+            forums,
+            notifications: await runNotificationCheck(user, context)
         }
     }
 }

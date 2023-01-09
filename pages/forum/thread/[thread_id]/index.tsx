@@ -6,6 +6,11 @@ import { TextField, Button } from "@mui/material"
 import Link from "next/link"
 import { Send } from '@mui/icons-material'
 import Thread from "../../../../components/forum/Thread"
+import Breadcrumbs from "../../../../components/Breadcrumbs"
+import Pagination from "../../../../components/Pagination"
+import { getPagination, getPages } from "../../../../lib/pagination"
+
+const ITEMS_PER_PAGE = 10
 
 const ForumThread = (data) => {
     const { user } = useUser()
@@ -16,10 +21,15 @@ const ForumThread = (data) => {
             <>
                 <div className="flex flex-col items-center">
                     <div className="lg:min-w-[1100px]">
+                        <Breadcrumbs pages={["Forum", "Thread", data.thread.title]}/>
+
                         <h1 className="text-3xl font-medium">{data.thread.title}</h1>
                         <h3 className="text-2xl font-medium">Started by {data.thread.profiles.full_name}</h3>
+
+                        <Pagination currentPage={data.page} pages={data.pages}/>
+
                         <div className="flex flex-col pt-4 gap-2">
-                            {
+                            {data.page == 1 &&
                                 <Thread
                                     body={data.thread.body}
                                     updated_at={data.thread.updated_at}
@@ -99,8 +109,9 @@ const ForumThread = (data) => {
 }
 
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({query: { page = 1, thread_id }}) {
     const user = await supabase.auth.user()
+    const { from, to } = getPagination(page, ITEMS_PER_PAGE)
 
     const { data: thread, error: threadError } = await supabase
             .from("forum_threads")
@@ -114,11 +125,12 @@ export async function getServerSideProps(context) {
                 author_uid,
                 profiles (
                     full_name,
-                    avatar_url
+                    avatar_url,
+                    created_at
                 )
-            `).eq("id", context.query.thread_id).single()
+            `).eq("id", thread_id).single()
 
-    const { data: replies, error: replyError } = await supabase
+    const { data: replies, error: replyError, count } = await supabase
             .from("forum_replies")
             .select(`
                 id,
@@ -129,14 +141,19 @@ export async function getServerSideProps(context) {
                 author_uid,
                 profiles (
                     full_name,
-                    avatar_url
+                    avatar_url,
+                    created_at
                 )
-            `).eq("thread_id", context.query.thread_id)
+            `, { count: 'exact' })
+            .eq("thread_id", thread_id)
+            .range(from, to)
 
     return {
         props: {
             thread,
-            replies
+            replies,
+            pages: getPages(count, ITEMS_PER_PAGE),
+            page: +page,
         }
     }
 }
