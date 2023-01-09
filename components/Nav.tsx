@@ -56,6 +56,7 @@ const Nav: React.FC<Props> = (props) => {
     }, [supabase])
 
     console.log(notifications)
+    console.log(user)
 
     const searchBox = useRef('')
 
