@@ -43,11 +43,13 @@ const Notifications: NextPage = (data: any) => {
 }
 
 
-export async function getServerSideProps(context) {
-    const user = await supabase.auth.user() // this returns null for some reason. Absolteuly no clue why somebody should take a look at it.
+export async function getServerSideProps(ctx) {
+    supabase.auth.setAuth(ctx.req.cookies["sb-access-token"])
+    const user = supabase.auth.user()
     let { data: notifications, error: forumError } = await supabase
         .from("notifications")
         .select(`*`)
+
 
     return {
         props: {

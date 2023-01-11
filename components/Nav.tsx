@@ -35,8 +35,6 @@ const Nav: React.FC<Props> = (props) => {
                     .eq("acknowledged", false)
                     .eq("target", localUser.id)
 
-                console.log(retrieved)
-
                 retrieved.forEach(async (notification) => {
                     if (window.location.href == notification.source) {
                         notification.acknowledged = true
@@ -53,9 +51,6 @@ const Nav: React.FC<Props> = (props) => {
             if (value.length > 0) setSnackbarOpen(true)
         })
     }, [supabase])
-
-    console.log(notifications)
-    console.log(user)
 
     const searchBox = useRef('')
 
@@ -169,16 +164,16 @@ const Nav: React.FC<Props> = (props) => {
                 <div className="border-gray-800 dark:border-gray-700 border-[1px] mt-1 mb-1 w-full" />
                 <Button onClick={async () => {
                     setLoading(true)
-                        try {
+                    try {
                         await supabase.auth.signOut()
-                            await fetch("/api/auth/remove", {
-                                method: "GET",
-                                credentials: "same-origin"
-                            })
-                    } finally {
+                        await fetch("/api/auth/remove", {
+                            method: "GET",
+                            credentials: "same-origin"
+                        })
                         setLoading(false)
                         setUserInfoOpened(false) // we need this to make it so if they logout it closes the user info page <3
                         router.push("/")
+                    } finally {
                     }
                 }} variant="outlined" startIcon={<Logout />} className="mx-12 dark:text-gray-300 text-gray-800 border-gray-800 hover:border-gray-700 dark:border-gray-300 hover:dark:border-gray-200 font-sans font-bold normal-case">
                     Sign out

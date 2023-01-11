@@ -1,4 +1,7 @@
+import { deleteCookie } from 'cookies-next';
 export default async function handler(req, res) {
-    res.setHeader("Set-Cookie", "sb:token=deleted; path/; expires: Thu, 01 Jan 1970 00:00:00 GMT")
+    deleteCookie("sb:token", { req, res })
+    deleteCookie("sb-access-token", { req, res })
+    deleteCookie("sb-refresh-token", { req, res })
     res.send({})
 }

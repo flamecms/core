@@ -11,18 +11,18 @@ const Login: NextPage = () => {
     const router = useRouter()
     const { user } = useUser()
 
-    const [loading, setLoading] = useState(false)
-    const [email, setEmail] = useState("")
+    const [loading, setLoading] = useState<boolean>(false)
+    const [email, setEmail] = useState<String>("")
 
 
-    const emailBox = useRef('')
-    const passwordBox = useRef('')
+    const emailBox = useRef<HTMLInputElement|null>(null)
+    const passwordBox = useRef<HTMLInputElement|null>(null)
 
-    let [ emailError, setEmailError ] = useState(false)
-    let [ passwordError, setPasswordError ] = useState(false)
+    let [ emailError, setEmailError ] = useState<boolean>(false)
+    let [ passwordError, setPasswordError ] = useState<boolean>(false)
 
-    let [ emailErrorText , setEnailErrrorText ]  = useState("")
-    let [ passwordErrorText, setPasswordErrorText ]  = useState("")
+    let [ emailErrorText , setEnailErrrorText ]  = useState<string|boolean|null>("")
+    let [ passwordErrorText, setPasswordErrorText ]  = useState<string|boolean|null>("")
 
     useEffect(() => {
         if (user) router.push("/")
@@ -31,15 +31,20 @@ const Login: NextPage = () => {
     async function handleLogin(provider) {
         setLoading(true)
         try {
-            const { data, error } = await supabase.auth.signIn({
-                provider
-            })
+            await supabase.auth.signIn(
+                {
+                    provider,
+                },
+                {
+                    redirectTo: (process.env.NEXT_PUBLIC_INSTANCE_URL || "http://localhost:3000") + "/"
+                }
+            )
         } finally {
             setLoading(false)
         }
     }
 
-    async function handleLogin(email, password) {
+    async function handleCredLogin(email, password) {
         setLoading(true)
         try {
             setEmailError(false)
@@ -47,31 +52,36 @@ const Login: NextPage = () => {
             setPasswordError(false)
             setPasswordErrorText(false)
 
-            if (emailBox.current.value.length == 0) {
+            if (emailBox.current?.value?.length == 0) {
                 setEmailError(true)
                 setEnailErrrorText("You must enter an email address.")
             }
 
 
-            if (passwordBox.current.value.length == 0) {
+            if (passwordBox.current?.value?.length == 0) {
                 setPasswordError(true)
                 setPasswordErrorText("You must enter a password.")
                 return
             }
 
-            const { data, error } = await supabase.auth.signIn({
-                email,
-                password
-            })
+            const { error } = await supabase.auth.signIn(
+                {
+                    email,
+                    password,
+                },
+                {
+                    redirectTo: (process.env.NEXT_PUBLIC_INSTANCE_URL || "http://localhost:3000") + "/"
+                }
+            )
 
             console.log(JSON.stringify(error))
 
             if (JSON.parse(JSON.stringify(error)).status == 422) {
-                setEnailErrrorText(error.message)
+                setEnailErrrorText(error?.message || "Invalid email or password.")
                 setEmailError(true)
             }
             if (JSON.parse(JSON.stringify(error)).status == 400) {
-                setPasswordErrorText(error.message)
+                setPasswordErrorText(error?.message || "Invalid email or password.")
                 setPasswordError(true)
             }
         } finally {
@@ -136,7 +146,7 @@ const Login: NextPage = () => {
                                     color="primary"
                                     size="medium"
                                     onClick={ async (e) => {
-                                        handleLogin(emailBox.current.value, passwordBox.current.value)
+                                        handleCredLogin(emailBox?.current?.value, passwordBox?.current?.value)
                                     }}>
                                     Log In
                                 </Button>

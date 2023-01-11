@@ -30,7 +30,7 @@ const Thread: React.FC<Props> = (props: Props) => {
                         </div>
                     </Grid>
                     <Grid xs={12} lg={9}>
-                        <ReactMarkdown className="forum-markdown-styling">
+                        <ReactMarkdown className="forum-markdown-styling max-w-[819px]">
                             {props.body.replace(/@(\S+)/gi,'[@$1](/user/$1)')}
                         </ReactMarkdown>
                     </Grid>
@@ -41,6 +41,8 @@ const Thread: React.FC<Props> = (props: Props) => {
                     <h2 className="text-md font-medium text-gray-800 dark:text-gray-200">{props.author.full_name}</h2>
                     <span> · </span>
                     <h2 className="text-md font-medium text-gray-800 dark:text-gray-200"> {new Date(props.updated_at || "1 January 1970").toLocaleDateString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
+                    <span> · </span>
+                    <h2 className="text-md font-medium text-gray-800 dark:text-gray-200"> {new Date(props.updated_at || "1 January 1970").toLocaleTimeString("en-GB")}</h2>
                 </div>
             </div>
         </>
