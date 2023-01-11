@@ -18,13 +18,15 @@ const ForumThread = (data) => {
 
     const reply_content = useRef('')
 
-    supabase
-      .from('forum_replies')
-      .on('INSERT', payload => {
-          console.log(payload)
-          if (payload.thread_id == data.thread.id)router.replace(router.asPath)
-      })
-      .subscribe()
+    useEffect(() => {
+        supabase
+          .from('forum_replies')
+          .on('INSERT', payload => {
+              console.log(payload)
+              if (payload.new.thread_id == data.thread.id) router.replace(router.asPath)
+          })
+          .subscribe()  
+    })
 
     return (
             <>
@@ -130,6 +132,9 @@ const ForumThread = (data) => {
                                                                     })
                                                             }
                                                         }
+
+
+                                                        window.location.href = `?page=${data.pages}`
                                                     }
                                                 }
                                                 >

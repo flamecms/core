@@ -16,7 +16,8 @@ module.exports = {
         },
         colors: {
             "accent": "#262626",
-            "primary": "#1a1a1a" 
+            "primary": "#1a1a1a",
+            "mui-primary": "#2267b5"
         }
       },
     },

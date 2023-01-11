@@ -9,7 +9,7 @@ export const getPagination = (g, size) => {
 }
 
 export const getPages = (amount, size) => {
-    const pre = amount / size
-    return amount % size == 0 ? pre : pre + 1
+    const pre = Math.round(amount / size)
+    return (amount % size == 0 ? pre : pre + 1).toString()
 }
 // math hehe (kill myself fr)

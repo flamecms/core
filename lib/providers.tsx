@@ -8,10 +8,6 @@ const pages = {
         displayName: "Google",
         icon: <Google className={standardClasses} />
     },
-    "spotify": {
-        displayName: "Spotify",
-        icon: <SiSpotify className={standardClasses} />
-    },
     "azure": {
         displayName: "Microsoft",
         icon: <SiMicrosoft className={standardClasses} />
@@ -23,10 +19,6 @@ const pages = {
     "github": {
         displayName: "Github",
         icon: <GitHub className={standardClasses} />
-    },
-    "gitlab": {
-        displayName: "Gitlab",
-        icon: <SiGitlab className={standardClasses} />
     }
 }
 
