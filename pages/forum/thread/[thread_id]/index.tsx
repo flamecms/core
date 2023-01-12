@@ -15,13 +15,14 @@ const ITEMS_PER_PAGE = 10
 const ForumThread = (data) => {
     const { user } = useUser()
     const router = useRouter()
+    const [ contentLoaded, setContentLoaded ] = useState<boolean>(false)
 
     const reply_content = useRef('')
 
     useEffect(() => {
         supabase
-          .from('forum_replies')
-          .on('INSERT', payload => {
+          .channel("public:forum_replies")
+          .on('postgres_changes', { event: "INSERT", schema: "public", table: "forum_replies" }, payload => {
               console.log(payload)
               if (payload.new.thread_id == data.thread.id) router.replace(router.asPath)
           })
@@ -154,7 +155,6 @@ const ForumThread = (data) => {
 
 
 export async function getServerSideProps({query: { page = 1, thread_id }}) {
-    const user = await supabase.auth.user()
     const { from, to } = getPagination(page, ITEMS_PER_PAGE)
 
     const { data: thread, error: threadError } = await supabase

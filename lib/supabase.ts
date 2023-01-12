@@ -26,4 +26,25 @@ export function getSupabase() {
     return client
 }
 
+export async function createSSRClient(accessToken: string | null, refreshToken: string | null) {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_KEY) {
+        console.log(process.env)
+        throw new Error('RETARD ADD YOUR FUCKING VARIABLES')
+    }
+
+    const client = createClient(process?.env?.NEXT_PUBLIC_SUPABASE_URL || "https://localhost:3000", process.env.NEXT_PUBLIC_SUPABASE_KEY || "")
+    if (typeof accessToken == "string" && typeof refreshToken == "string") {
+        console.log("User authenticated")
+        await supabase.auth?.setSession({
+            access_token: accessToken || "",
+            refresh_token: refreshToken || ""
+        })
+        
+    } else {
+        console.log("User unauthenticated")
+    }
+
+    return client
+}
+
 export const supabase = getSupabase()

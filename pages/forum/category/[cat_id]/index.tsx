@@ -54,8 +54,6 @@ const ForumCategory = (data) => {
 
 
 export async function getServerSideProps(context) {
-    const user = await supabase.auth.user()
-
     const { data: category, error: categoryError } = await supabase
             .from("forum_categories")
             .select(`

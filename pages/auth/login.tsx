@@ -31,13 +31,10 @@ const Login: NextPage = () => {
     async function handleLogin(provider) {
         setLoading(true)
         try {
-            await supabase.auth.signIn(
+            await supabase.auth.signInWithOAuth(
                 {
                     provider,
                 },
-                {
-                    redirectTo: (process.env.NEXT_PUBLIC_INSTANCE_URL || "http://localhost:3000") + "/"
-                }
             )
         } finally {
             setLoading(false)
@@ -64,14 +61,11 @@ const Login: NextPage = () => {
                 return
             }
 
-            const { error } = await supabase.auth.signIn(
+            const { error } = await supabase.auth.signInWithPassword(
                 {
                     email,
                     password,
                 },
-                {
-                    redirectTo: (process.env.NEXT_PUBLIC_INSTANCE_URL || "http://localhost:3000") + "/"
-                }
             )
 
             console.log(JSON.stringify(error))

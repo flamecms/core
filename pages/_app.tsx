@@ -22,7 +22,7 @@ const poppins = Poppins({
     variable: '--font-poppins',
 })
 
-function Loading() {
+const Loading: Function = function () {
     const router = useRouter();
 
     const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ export default function Application({ Component, pageProps }) {
         href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
 
-        <Loading/>
+        <Loading />
         <div className={`dark:bg-accent dark:text-white ${quicksand.variable} ${roboto.variable} ${poppins.variable} font-sans`}>
             <div className="w-full min-w-screen min-h-screen h-full">
                 <Nav />

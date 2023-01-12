@@ -23,12 +23,12 @@ const Nav: React.FC<Props> = (props) => {
     const [notifications, setNotifications] = useState([])
 
     useEffect(() => {
-        const localUser = supabase.auth.user()
 
         async function handleNotifications(router) {
             setLoading(true)
-            console.log("Loading notifications for " + localUser?.user_metadata?.full_name)
-            if (localUser) {
+            if (localStorage.getItem("sb:state") == "SIGNED_IN") {
+                const { data: { user: localUser } } = await supabase.auth?.getUser()
+                console.log("Loading notifications for " + localUser?.user_metadata?.full_name)
                 const { data: retrieved, error } = await supabase
                     .from("notifications")
                     .select("*")
@@ -150,7 +150,9 @@ const Nav: React.FC<Props> = (props) => {
                         <Badge badgeContent={notifications.length} color="error">
                             <Notifications />
                         </Badge>
-                        Notifications
+                        <Link href="/manage/notifications">
+                            Notifications
+                        </Link>
                     </div>
                     <div className="flex flex-row justify-center md:justify-start gap-x-4">
                         <MailIcon />

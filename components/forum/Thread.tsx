@@ -37,12 +37,10 @@ const Thread: React.FC<Props> = (props: Props) => {
                 </Grid>
 
                 <div className="border-gray-800 dark:border-gray-700 border-[1px] mt-1 mb-1 w-full" />
-                <div class="flex flex-row gap-2 p-2">
+                <div className="flex flex-row gap-2 p-2">
                     <h2 className="text-md font-medium text-gray-800 dark:text-gray-200">{props.author.full_name}</h2>
                     <span> · </span>
-                    <h2 className="text-md font-medium text-gray-800 dark:text-gray-200"> {new Date(props.updated_at || "1 January 1970").toLocaleDateString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
-                    <span> · </span>
-                    <h2 className="text-md font-medium text-gray-800 dark:text-gray-200"> {new Date(props.updated_at || "1 January 1970").toLocaleTimeString("en-GB")}</h2>
+                    <h2 className="text-md font-medium text-gray-800 dark:text-gray-200"> {new Date(props.updated_at || "1 January 1970").toLocaleTimeString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
                 </div>
             </div>
         </>
