@@ -126,7 +126,7 @@ const Nav: React.FC<Props> = (props) => {
                                     vertical: 'bottom',
                                     horizontal: 'left',
                                 }} badgeContent={notifications.length} overlap="circular" color="error">
-                                    <img referrerPolicy="no-referrer" className="rounded-full hover:rounded-lg w-12" alt="Avatar name" src={user?.user_metadata?.avatar_url} />
+                                    <img referrerPolicy="no-referrer" className={(userInfoOpened ? "rounded-lg" : "rounded-full") + " hover:rounded-lg w-12"} alt="Avatar name" src={user?.user_metadata?.avatar_url} />
                                 </Badge>
                             </button>
                         </span>
