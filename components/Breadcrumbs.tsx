@@ -13,7 +13,7 @@ const Breadcrumbs: React.FC<Props> = (props: Props) => {
                 <Link underline={"none"} className="text-gray-300 hover:text-gray-200" href="/"><Home/></Link>
 
                 {props.pages.map((page) => (
-                    <Link underline={"none"} className={(props.pages.indexOf(page) + 1 >= props.pages.length) ? "text-purple-400 hover:text-purple-300" : "text-gray-300 hover:text-gray-200"}>{page}</Link>
+                    <Link key={page} underline={"none"} className={(props.pages.indexOf(page) + 1 >= props.pages.length) ? "text-purple-400 hover:text-purple-300" : "text-gray-300 hover:text-gray-200"}>{page}</Link>
                 ))}
             </Crumb>
         </>
