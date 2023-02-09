@@ -80,7 +80,7 @@ const Nav: React.FC<Props> = (props) => {
                         <Button className="sm:hidden" onClick={() => toggleNavbar()}>
                             <Menu className="text-gray-800 dark:text-gray-300" />
                         </Button>
-                        <span className="hidden md:block text-5xl font-bold text-gray-800 dark:text-gray-200"><VscFlame /></span>
+                        <span className="hidden md:block text-5xl font-bold text-amber-300 hover:text-amber-400"><VscFlame /></span>
                         <div className="hidden sm:flex flex-col sm:flex-row items-center gap-y-2 sm:gap-x-6">
                             {
                                 Object.keys(pages).map((page, index) => (
@@ -222,7 +222,7 @@ const Nav: React.FC<Props> = (props) => {
 
             <div className={`w-full p-10 ${router.pathname == "/" ? "md:p-24" : "md:p-6 md:pb-8"}`}>
                 <div className="rounded lg:mx-40 xl:mx-80 p-2 flex flex-col items-center gap-y-2">
-                    <h2 className="text-8xl text-center text-gray-200 font-bold"><VscFlame /></h2>
+                    <h2 className="text-8xl text-center text-amber-300 hover:text-amber-400 font-bold"><VscFlame /></h2>
                     {
                         router.pathname == "/" && (
                             <p className="text-2xl text-gray-200 font-medium text-center">The number one solution for all your CMS needs.</p>
