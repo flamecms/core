@@ -100,7 +100,7 @@ export async function getServerSideProps(context) {
                     weight,
                     hidden
                 )
-            `)
+            `).eq(`target`, profile.id)
 
     profile.granted_authorities = (grants as unknown) as GrantedAuthority[]
 
