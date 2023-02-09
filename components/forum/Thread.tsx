@@ -40,7 +40,7 @@ const Thread: React.FC<Props> = (props: Props) => {
                 <div className="flex flex-row gap-2 p-2">
                     <h2 className="text-md font-medium text-gray-800 dark:text-gray-200">{props.author.full_name}</h2>
                     <span> · </span>
-                    <h2 className="text-md font-medium text-gray-800 dark:text-gray-200"> {new Date(props.updated_at || "1 January 1970").toLocaleTimeString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
+                    <h2 className="text-md font-medium text-gray-800 dark:text-gray-200"> {new Date(props.updated_at || "1 January 1970").toLocaleDateString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })} at {new Date(props.updated_at || "1 January 1970").toLocaleTimeString("en-GB")}</h2>
                 </div>
             </div>
         </>

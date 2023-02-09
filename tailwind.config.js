@@ -15,8 +15,12 @@ module.exports = {
             "Roboto": ['var(--font-roboto)'],
         },
         colors: {
-            "accent": "#262626",
-            "primary": "#1a1a1a",
+            "accent": "#13121C",
+            "primary": "#1A1927",
+            "secondary": "#1F1E2F",
+            "breadcrumb": "#2197fc",
+            "legacy-accent": "#262626",
+            "legacy-primary": "#1a1a1a",
             "mui-primary": "#2267b5"
         }
       },

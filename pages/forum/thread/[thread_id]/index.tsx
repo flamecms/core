@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react"
 import { useRouter } from 'next/router'
 import { supabase } from "../../../../lib/supabase"
 import useUser from "../../../../hooks/useUser"
-import { TextField, Button } from "@mui/material"
+import { TextField, Button, Pagination } from "@mui/material"
 import Link from "next/link"
 import { Send } from '@mui/icons-material'
 import Thread from "../../../../components/forum/Thread"
 import Breadcrumbs from "../../../../components/Breadcrumbs"
-import Pagination from "../../../../components/Pagination"
+import OldPagination from "../../../../components/Pagination"
 import { getPagination, getPages } from "../../../../lib/pagination"
 
 const ITEMS_PER_PAGE = 10
@@ -38,7 +38,10 @@ const ForumThread = (data) => {
                         <h1 id="thread_title" className="text-3xl font-medium">{data.thread.title}</h1>
                         <h3 className="text-2xl font-medium">Started by {data.thread.profiles.full_name}</h3>
 
-                        <Pagination currentPage={data.page} pages={data.pages}/>
+                        <div className="hidden">
+                            <OldPagination currentPage={data.page} pages={data.pages}/>
+                        </div>
+                        <Pagination color="secondary" className="pt-4 pb-2" count={data.pages} defaultPage={data.page} onChange={(e, page) => router.push(`/forum/thread/${data.thread.id}?page=${page}`)}/>
 
                         <div className="flex flex-col pt-4 gap-2">
                             {data.page == 1 &&
