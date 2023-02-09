@@ -90,7 +90,7 @@ const ForumHome: NextPage = (data: any) => {
                                     <div id="categories" className="flex flex-col gap-y-4">
                                         {
                                             forum.categories.map((category) => (
-                                                    <div className="dark:bg-primary gap-1 flex align-items-center" style={{ borderRadius: "0.5rem", marginTop: "0.25rem", padding: "1rem 1.25rem"  }} key={category.id + category.title}>
+                                                    <div className="dark:bg-primary gap-1 flex align-items-center" style={{ boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)", borderRadius: "0.5rem", marginTop: "0.25rem", padding: "1rem 1.25rem"  }} key={category.id + category.title}>
                                                         <div className="text-center opacity-70 text-[#C8C7D8]" style={{ width: "1.1em", marginLeft: "-0.25rem", fontSize: "1.5rem" }}>
                                                             <Icon>{category.icon || "info"}</Icon>
                                                         </div>

@@ -16,7 +16,7 @@ interface Props {
 const Thread: React.FC<Props> = (props: Props) => {
     return (
         <>
-            <div className="flex flex-col dark:bg-primary rounded-xl">
+        <div className="flex flex-col dark:bg-primary rounded-xl" style={{boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)"}}>
                 <Grid className="px-4 py-4" container spacing={1}>
                     <Grid xs={12} lg={3}>
                         <div className="flex items-center flex-col gap-y-4 px-4 pt-8 pb-2">

@@ -86,7 +86,7 @@ const Nav: React.FC<Props> = (props) => {
                                 Object.keys(pages).map((page, index) => (
                                     <Link href={page} key={index} className="text-lg font-medium text-gray-800 dark:text-gray-300 hover:text-gray-600 hover:dark:text-gray-200">
                                         <Tooltip title={<span className="font-Quicksand">{pages[page].description || pages[page].displayName}</span>} placement="bottom">
-                                            <span className={(router.pathname.startsWith(page) && page != "/" || page == "/" && router.pathname == "/" ? "light text-purple-800 hover:text-purple-900 dark:text-gray-300 hover:dark:text-gray-300 hover:dark:border-b-2 hover:dark:border-purple-200 hover:dark:-my-2" : "text-gray-800 hover:text-gray-700 dark:text-gray-400 hover:dark:text-gray-300") + " flex flex-col-reverse items-center"}>{pages[page].displayName} {pages[page].icon}</span>
+                                            <span className={(router.pathname.startsWith(page) && page != "/" || page == "/" && router.pathname == "/" ? "light text-navy-800 hover:text-purple-900 dark:text-gray-300 hover:dark:text-gray-300 hover:dark:border-b-2 hover:dark:border-navy-200 hover:dark:-my-2" : "text-gray-800 hover:text-gray-700 dark:text-gray-400 hover:dark:text-gray-300") + " flex flex-col-reverse items-center"}>{pages[page].displayName} {pages[page].icon}</span>
                                         </Tooltip>
                                     </Link>
                                 ))
@@ -94,7 +94,8 @@ const Nav: React.FC<Props> = (props) => {
                         </div>
                     </div>
 
-                    <div className="hidden md:flex flex-row item-center text-center bg-black bg-opacity-20 px-4 py-2 rounded-full" style={{
+                    <div className="absolute" style={{left: "43vw"}}>
+                    <div className="hidden xl:flex flex-row item-center text-center bg-black bg-opacity-20 px-4 py-2 rounded-full" style={{
                         backdropFilter: "blur(2px)"
                     }}>
                         <form noValidate autoComplete="off" className="rounded-full">
@@ -124,6 +125,7 @@ const Nav: React.FC<Props> = (props) => {
                             />
                         </form>
                     </div>
+                    </div>
 
                     <div className="flex flex-row items-center text-right">
                         {!user && (
@@ -145,7 +147,7 @@ const Nav: React.FC<Props> = (props) => {
                         )}
                     </div>
                 </nav>
-                <div id="user_info" className={`${userInfoOpened ? "flex opacity-100" : "hidden md:flex opacity-0 pointer-"} transition-opacity w-full sm:w-auto drop-shadow-xl flex-col gap-y-4 sm:absolute right-0 bg-gray-300 dark:bg-primary ease-in-out rounded-bl-xl rounded-tl-xl z-[40]`}>
+                <div id="user_info" className={`${userInfoOpened ? "flex opacity-100" : "hidden md:flex opacity-0 pointer-"} transition-opacity w-full sm:w-auto drop-shadow-xl flex-col gap-y-4 sm:absolute right-2 bg-gray-300 dark:bg-accent ease-in-out rounded-xl z-[40]`} style={{boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)"}}>
                     <div className="flex items-center flex-col gap-y-4 px-16 pt-8 pb-2">
                         <img referrerPolicy="no-referrer" className="rounded-xl w-24" alt="Avatar name" src={user?.user_metadata?.avatar_url} />
                         <div>
@@ -201,12 +203,12 @@ const Nav: React.FC<Props> = (props) => {
                 </div>
                 <div className={`${!userInfoOpened && "hidden"} md:absolute bg-opacity-50 w-full h-full top-0 left-0`} onClick={toggleUserInfo} />
 
-            <div className={`${navbarOpened ? "flex" : "hidden"} w-full sm:w-auto drop-shadow-xl flex-col gap-y-4 sm:absolute right-0 bg-gray-300 dark:bg-primary transition ease-in-out rounded-bl-xl z-[40]`}>
+            <div className={`${navbarOpened ? "flex" : "hidden"} w-full sm:w-auto drop-shadow-xl flex-col gap-y-4 sm:absolute right-0 bg-transparent transition ease-in-out rounded-bl-xl z-[40]`}>
                 <div className="flex items-center flex-col gap-y-4 px-16 pt-8 pb-2">
                     {
                         Object.keys(pages).map((page, index) => (
                             <Link href={page} key={index} className="text-lg font-medium text-gray-800 dark:text-gray-300 hover:text-gray-600 hover:dark:text-gray-200">
-                                <span className={router.pathname.startsWith(page) && page != "/" || page == "/" && router.pathname == "/" ? "text-purple-800 hover:text-purple-900 dark:text-purple-500 hover:dark:text-purple-600" : "text-gray-800 hover:text-gray-700 dark:text-gray-300 hover:dark:text-gray-400"}>{pages[page].icon} {pages[page].displayName}</span>
+                                <span className={router.pathname.startsWith(page) && page != "/" || page == "/" && router.pathname == "/" ? "text-link" : "text-gray-800 hover:text-gray-700 dark:text-gray-300 hover:dark:text-gray-400"}>{pages[page].icon} {pages[page].displayName}</span>
                             </Link>
                         ))
                     }
@@ -220,7 +222,7 @@ const Nav: React.FC<Props> = (props) => {
                 </IconButton>
             </div>
 
-            <div className={`w-full p-10 ${router.pathname == "/" ? "md:p-24" : "md:p-6 md:pb-8"}`}>
+            <div className={`${navbarOpened ? "hidden" : "block"} w-full p-10 ${router.pathname == "/" ? "md:p-24" : "md:p-6 md:pb-8"}`}>
                 <div className="rounded lg:mx-40 xl:mx-80 p-2 flex flex-col items-center gap-y-2">
                     <h2 className="text-8xl text-center text-amber-300 hover:text-amber-400 font-bold"><VscFlame /></h2>
                     {

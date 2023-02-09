@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .forum-markdown-styling a {
-    color: rgb(192 132 252)
+    color: #4085d2
 }
 
 .spinner-wrapper {
