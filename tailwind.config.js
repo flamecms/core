@@ -18,7 +18,7 @@ module.exports = {
             "accent": "#13121C",
             "primary": "#1A1927",
             "secondary": "#1F1E2F",
-            "breadcrumb": "#2197fc",
+            "link": "#4085d2",
             "legacy-accent": "#262626",
             "legacy-primary": "#1a1a1a",
             "mui-primary": "#2267b5"

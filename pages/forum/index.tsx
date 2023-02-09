@@ -78,33 +78,32 @@ const ForumHome: NextPage = (data: any) => {
             <div className="lg:min-w-[1100px]">
                 <Breadcrumbs pages={["Forum"]}/>
 
-                <h1 className="text-3xl font-medium">Forum Categories</h1>
                 <div className="flex flex-col pt-4">
                     <div className={forumsLoaded === true ? "hidden" : "flex flex-col gap-y-4"}>
-                        <h1 className="text-2xl font-bold dark:text-gray-300">Loading...</h1>
+                        <h1 className="text-2xl font-bold dark:text-gray-300">Fetching forum categories</h1>
                         <LinearProgress color="primary" />
                     </div>
                     {
                         forumsLoaded && forums.map((forum) => (
-                                <div className="flex flex-col dark:bg-primary px-6 py-6 rounded-xl" key={forum.id}>
-                                    <h1 className="text-2xl font-bold">{forum.title}</h1>
-                                    <p className="text-base">{forum.description}</p>
-                                    <hr className="my-4" />
+                                <div className="flex flex-col px-6 py-6 rounded-xl" key={forum.id}>
+                                    <h1 className="text-xl font-bold text-[#7F7B96]">{forum.title}</h1>
                                     <div id="categories" className="flex flex-col gap-y-4">
                                         {
                                             forum.categories.map((category) => (
-                                                <div className="" key={category.id + category.title}>
-                                                    <div className="flex flex-row gap-x-2 text-lg">
-                                                        <div className="flex flex-row gap-x-2 justify-left">
-                                                            <Icon className="text-gray-800 dark:text-gray-300">{category.icon || "info"}</Icon>
-                                                            <Link href={"/forum/category/" + category.slug} className="font-bold"><h1>{category.title}</h1></Link>
+                                                    <div className="dark:bg-primary gap-1 flex align-items-center" style={{ borderRadius: "0.5rem", marginTop: "0.25rem", padding: "1rem 1.25rem"  }} key={category.id + category.title}>
+                                                        <div className="text-center opacity-70 text-[#C8C7D8]" style={{ width: "1.1em", marginLeft: "-0.25rem", fontSize: "1.5rem" }}>
+                                                            <Icon>{category.icon || "info"}</Icon>
                                                         </div>
-                                                        <div className="flex flex-row gap-x-2 ml-auto">
-                                                            <span className="text-gray-900 dark:text-gray-200 font-bold">Threads: {category.threads}</span>
+
+                                                        <div style={{ flexGrow: 1, lineHeight: 1.25, overflow: "hidden" }}>
+                                                            <Link href={"/forum/category/" + category.slug}><h1 className="text-link" style={{fontSize: "1.05rem", fontWeight: 800, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{category.title}</h1></Link>
+                                                            <h3 className="text-[#C8C7D8]" style={{fontSize: ".875rem", fontWeight: 400}}>{category.description}</h3>
+                                                        </div>
+
+                                                        <div className="text-[#C8C7D8] text-center" style={{ flexShrink: 0, width: "150px", fontSize: "0.85rem", fontWeight: 400 }}>
+                                                            <span><strong>{category.threads}</strong> Threads</span>
                                                         </div>
                                                     </div>
-                                                    <h3>{category.description}</h3>
-                                                </div>
                                             ))
                                         }
                                     </div>

@@ -87,19 +87,8 @@ const Login: NextPage = () => {
         <>
         <div className="flex flex-col justify-center gap-y-2 items-center">
                 <div className="w-lg-[1200px] dark:bg-primary rounded-lg">
-                    <Grid container spacing={0}>
-                        <Grid className="hidden lg:flex rounded-lg" item lg={6}>
-                            <div className="w-full p-32 rounded-lg" style={
-                                {
-                                    backgroundImage: `url("https://static.vecteezy.com/system/resources/previews/006/852/804/original/abstract-blue-background-simple-design-for-your-website-free-vector.jpg")`,
-                                    backgroundSize: "cover",
-                                    backgroundRepeat: 'no-repeat'
-                                }
-                            }/>
-                        </Grid>
-                        <Grid className="text-center p-5" item lg={6}>
-                            <h2 className="text-3xl font-bold dark:text-gray-300 text-gray-800 text-center">Sign in</h2>
-                            <h4 className="text-xl dark:text-gray-100 text-gray-600 text-center pb-2">Enter the username and password you used to create an account.</h4>
+                        <div className="text-center px-28 py-12" item>
+                            <h2 className="text-xl font-bold dark:text-gray-300 text-gray-800 text-center pb-12">Log in to an existing account.</h2>
 
                             <form className="flex flex-col gap-y-2">
                                 <TextField
@@ -111,7 +100,7 @@ const Login: NextPage = () => {
                                     error={emailError}
                                     type="email"
                                     helperText={emailErrorText}
-                                    placeholder="Email"
+                                    placeholder="email address"
                                     onKeyPress={(ev) => {
                                     if (ev.key === 'Enter') {
                                         ev.preventDefault()
@@ -126,7 +115,7 @@ const Login: NextPage = () => {
                                     inputRef={passwordBox}
                                     error={passwordError}
                                     helperText={passwordErrorText}
-                                    placeholder="Password"
+                                    placeholder="password"
                                     type="password"
                                     onKeyPress={(ev) => {
                                     if (ev.key === 'Enter') {
@@ -156,13 +145,12 @@ const Login: NextPage = () => {
                                             }
                                             }
                                                 variant="outlined" className="bg-primary dark:bg-white gap-x-2 dark:text-gray-800 text-gray-300 border-gray-800 hover:border-gray-700 dark:border-gray-300 hover:dark:border-gray-200 font-sans font-bold normal-case">
-                                                Sign In With {providers[provider].displayName} {providers[provider].icon || <></>}
+                                                Continue With {providers[provider].displayName} {providers[provider].icon || <></>}
                                             </Button>
                                             ))
                                 }
                             </div>
-                        </Grid>
-                    </Grid>
+                        </div>
                 </div>
             </div>
         </>
