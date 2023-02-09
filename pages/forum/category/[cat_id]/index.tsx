@@ -95,7 +95,7 @@ const ForumCategory: NextPage = (data: any) => {
 
 
             console.log(category)
-            category.threads = threads
+            if (threads != null) category.threads = threads
 
             setForums(category)
             setForumsLoaded(true)
@@ -144,7 +144,7 @@ const ForumCategory: NextPage = (data: any) => {
                                                             <span><strong>0</strong> Likes</span>
                                                         </div>
 
-                                                        { thread.recentReply != null && (
+                                                        { thread.recentReply != null && thread.recentReply != undefined && (
                                                                 <div className="flex align-items-center" style={{ flexShrink: 0, width: "300px", lineHeight: 1.25 }}>
                                                                     <div>
                                                                         <Link href={"/user/" + thread.recentReply.profiles.username}>
@@ -163,7 +163,7 @@ const ForumCategory: NextPage = (data: any) => {
                                                                 )
 
                                                         }
-                                                        { thread.recentReply == null && (
+                                                        { thread.recentReply == null || thread.recentReply == undefined && (
                                                                 <div className="flex align-items-center" style={{ flexShrink: 0, width: "300px", lineHeight: 1.25 }}>
                                                                     <span className="text-[#C8C7D8] text-center">There are no replies to this thread yet.</span>
                                                                 </div>
