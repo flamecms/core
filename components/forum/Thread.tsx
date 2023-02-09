@@ -16,33 +16,27 @@ interface Props {
 const Thread: React.FC<Props> = (props: Props) => {
     return (
         <>
-        <div className="flex flex-col dark:bg-primary rounded-xl" style={{boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)"}}>
-                <Grid className="px-4 py-4" container spacing={1}>
-                    <Grid xs={12} lg={3}>
-                        <div className="flex items-center flex-col gap-y-4 px-4 pt-8 pb-2">
-                            <img referrerPolicy="no-referrer" className="rounded-xl w-24" alt="Avatar name" src={props.author.avatar_url} />
-                            <div>
-                                <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200 text-center">
-                                    {props.author.full_name}
-                                </h1>
-                                <h2 className="text-md font-medium text-gray-800 dark:text-gray-200 text-center">Joined {new Date(props.author.created_at || "1 January 1970").toLocaleDateString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
-                            </div>
+        <div className="bg-primary rounded-lg p-2 flex flex-row gap-2" style={{boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)"}}>
+            <div className="p-3 flex flex-row w-full">
+                <img referrerPolicy="no-referrer" className="rounded-xl w-12 h-12" alt="Avatar name" src={props.author.avatar_url} />
+                <div className="w-full">
+                    <div className="flex flex-row text-gray-800 dark:text-gray-200 ml-2 w-full">
+                        <div className="text-xl font-bold">
+                            {props.author.full_name}
                         </div>
-                    </Grid>
-                    <Grid xs={12} lg={9}>
+                        <div className="flex-row-reverse ml-auto font-medium text-md">
+                            Replied at {new Date(props.updated_at || "1 January 1970").toLocaleDateString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })}
+                        </div>
+                    </div>
+
+                    <div className="mx-1 px-1 rounded-lg">
                         <ReactMarkdown className="forum-markdown-styling max-w-[819px]">
                             {props.body.replace(/@(\S+)/gi,'[@$1](/user/$1)')}
                         </ReactMarkdown>
-                    </Grid>
-                </Grid>
-
-                <div className="border-gray-800 dark:border-gray-700 border-[1px] mt-1 mb-1 w-full" />
-                <div className="flex flex-row gap-2 p-2">
-                    <h2 className="text-md font-medium text-gray-800 dark:text-gray-200">{props.author.full_name}</h2>
-                    <span> · </span>
-                    <h2 className="text-md font-medium text-gray-800 dark:text-gray-200"> {new Date(props.updated_at || "1 January 1970").toLocaleDateString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })} at {new Date(props.updated_at || "1 January 1970").toLocaleTimeString("en-GB")}</h2>
+                    </div>
                 </div>
             </div>
+        </div>
         </>
     )
 }

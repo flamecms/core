@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from 'next/router'
-import { supabase } from "../../../../lib/supabase"
-import useUser from "../../../../hooks/useUser"
+import { supabase } from "../../../lib/supabase"
+import useUser from "../../../hooks/useUser"
 import { TextField, Button, Pagination } from "@mui/material"
 import Link from "next/link"
 import { Send } from '@mui/icons-material'
-import Thread from "../../../../components/forum/Thread"
-import Breadcrumbs from "../../../../components/Breadcrumbs"
-import OldPagination from "../../../../components/Pagination"
-import { getPagination, getPages } from "../../../../lib/pagination"
+import Thread from "../../../components/forum/Thread"
+import Breadcrumbs from "../../../components/Breadcrumbs"
+import OldPagination from "../../../components/Pagination"
+import { getPagination, getPages } from "../../../lib/pagination"
+import ReactMarkdown from "react-markdown"
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 15
 
 const ForumThread = (data) => {
     const { user } = useUser()
@@ -32,28 +33,41 @@ const ForumThread = (data) => {
     return (
             <>
                 <div className="flex flex-col items-center">
-                    <div className="lg:min-w-[1100px]">
+                    <div className="lg:min-w-[1300px]">
                         <Breadcrumbs pages={["Forum", "Thread", data.thread.title]}/>
 
-                        <h1 id="thread_title" className="text-3xl font-medium">{data.thread.title}</h1>
-                        <h3 className="text-2xl font-medium">Started by {data.thread.profiles.full_name}</h3>
+                        <div className="bg-primary rounded-lg p-2 flex flex-row gap-2" style={{boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)"}}>
+                            <div>
+                                <img referrerPolicy="no-referrer" className="rounded-xl w-24" alt="Avatar name" src={data.thread.profiles.avatar_url} />
+                            </div>
+                            <div className="p-3">
+                                <h3 className="text-xl font-bold tracking-widest">{data.thread.profiles.full_name}</h3>
+                            </div>
 
-                        <div className="hidden">
-                            <OldPagination currentPage={data.page} pages={data.pages}/>
+                            <div className="ml-auto">
+                                <h2 className="text-md font-medium text-gray-800 dark:text-gray-200 text-right">Joined {new Date(data.thread.profiles.created_at || "1 January 1970").toLocaleDateString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
+                                <h2 className="text-md font-medium text-gray-800 dark:text-gray-200 text-right">Started thread {new Date(data.thread.created_at || "1 January 1970").toLocaleDateString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
+                                <h2 className="text-md font-medium text-gray-800 dark:text-gray-200 text-right"><strong>{data.replyCount}</strong> replies</h2>
+                                <h2 className="text-md font-medium text-gray-800 dark:text-gray-200 text-right"><strong>0</strong> likes</h2>
+                            </div>
                         </div>
-                        <Pagination color="secondary" className="pt-4 pb-2" count={data.pages} defaultPage={data.page} onChange={(e, page) => router.push(`/forum/thread/${data.thread.id}?page=${page}`)}/>
 
                         <div className="flex flex-col pt-4 gap-2">
                             {data.page == 1 &&
-                                <Thread
-                                    body={data.thread.body}
-                                    updated_at={data.thread.updated_at}
-                                    author={{
-                                    full_name: data.thread.profiles.full_name,
-                                        created_at: data.thread.profiles.created_at,
-                                        avatar_url: data.thread.profiles.avatar_url,
-                                    }
-                                    }/>
+                                <div className="bg-primary rounded-lg p-2 flex flex-col gap-2" style={{boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)"}}>
+                                    <div className="p-3">
+                                        <h3 className="text-xl font-bold tracking-widest">{data.thread.title}</h3>
+                                        <div className="text-sm">
+                                            <h3 className="font-medium">by {data.thread.profiles.full_name}</h3>
+                                        </div>
+                                    </div>
+
+                                    <div className="m-4 p-4 rounded-lg">
+                                        <ReactMarkdown className="forum-markdown-styling max-w-[819px]">
+                                            {data.thread.body.replace(/@(\S+)/gi,'[@$1](/user/$1)')}
+                                        </ReactMarkdown>
+                                    </div>
+                                </div>
                             }
 
                             {!data.replies || data.replies.length == 0 ?
@@ -149,8 +163,11 @@ const ForumThread = (data) => {
                                     </>
                                 )
                             }
+
                         </div>
                     </div>
+
+                    <Pagination color="secondary" className="pt-4 pb-2" count={data.pages} defaultPage={data.page} onChange={(e, page) => router.push(`/forum/thread/${data.thread.id}?page=${page}`)}/>
                 </div>
             </>
         )
@@ -199,6 +216,7 @@ export async function getServerSideProps({query: { page = 1, thread_id }}) {
         props: {
             thread,
             replies,
+            replyCount: count,
             pages: getPages(count, ITEMS_PER_PAGE),
             page: +page,
         }

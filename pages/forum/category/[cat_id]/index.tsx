@@ -41,7 +41,7 @@ const ForumCategory: NextPage = (data: any) => {
     }
 
     const router = useRouter();
-    const cat_id = "updates"
+    const { cat_id } = router.query
 
     console.log(cat_id)
 
@@ -108,7 +108,7 @@ const ForumCategory: NextPage = (data: any) => {
 
     return (
             <div className="flex flex-col items-center">
-                <div className="lg:min-w-[1100px]">
+                <div className="lg:min-w-[1300px]">
                     <Breadcrumbs pages={["Forum"]}/>
 
                     <div className="flex flex-col pt-4">
@@ -124,8 +124,8 @@ const ForumCategory: NextPage = (data: any) => {
                                         {
                                             forums.threads.map((thread) => (
                                                     <div className="dark:bg-primary gap-1 flex align-items-center" style={{ boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)", borderRadius: "0.5rem", marginTop: "0.25rem", padding: "1rem 1.25rem"  }} key={thread.id + thread.title}>
-                                                        <div className="text-center opacity-70 text-[#C8C7D8]" style={{ width: "1.1em", marginLeft: "-0.25rem", fontSize: "1.5rem" }}>
-                                                            <Icon>comment</Icon>
+                                                        <div className="text-center opacity-70 text-[#C8C7D8] pr-16" style={{ width: "1.25em", marginLeft: "-0.25rem", fontSize: "1.5rem" }}>
+                                                            <Icon style={{fontSize: "2.1rem"}}>comments</Icon>
                                                         </div>
 
                                                         <div style={{ flexGrow: 1, lineHeight: 1.25, overflow: "hidden" }}>
@@ -148,7 +148,7 @@ const ForumCategory: NextPage = (data: any) => {
                                                                 <div className="flex align-items-center" style={{ flexShrink: 0, width: "300px", lineHeight: 1.25 }}>
                                                                     <div>
                                                                         <Link href={"/user/" + thread.recentReply.profiles.username}>
-                                                                            <img referrerPolicy="no-referrer" className="rounded-full hover:rounded-lg" style={{width: "30px", height: "30px", marginRight: "0.25rem"}} alt="Avatar name" src={thread.recentReply.profiles.avatar_url} />
+                                                                            <img referrerPolicy="no-referrer" className="rounded-full hover:rounded-lg" style={{width: "40px", height: "40px", marginRight: "0.5rem"}} alt="Avatar name" src={thread.recentReply.profiles.avatar_url} />
                                                                         </Link>
                                                                     </div>
                                                                     <div style={{overflow: "hidden"}}>

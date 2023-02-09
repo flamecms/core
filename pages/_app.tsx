@@ -66,7 +66,7 @@ export default function Application({ Component, pageProps }) {
             <div className={`dark:bg-accent dark:text-white ${quicksand.variable} ${roboto.variable} ${poppins.variable} font-sans`}>
                 <div className="w-full min-w-screen min-h-screen h-full">
                     <Nav />
-                    <div className="w-full h-full px-8 pt-4">
+                    <div className="w-full h-full px-4 pt-4">
                         <Component {...pageProps} />
                     </div>
                 </div>

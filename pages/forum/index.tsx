@@ -75,7 +75,7 @@ const ForumHome: NextPage = (data: any) => {
 
     return (
         <div className="flex flex-col items-center">
-            <div className="lg:min-w-[1100px]">
+            <div className="lg:min-w-[1300px]">
                 <Breadcrumbs pages={["Forum"]}/>
 
                 <div className="flex flex-col pt-4">
