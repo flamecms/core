@@ -126,7 +126,7 @@ const ForumCategory: NextPage = (data: any) => {
                                         {
                                             forums.threads.map((thread) => (
                                                     <div className="dark:bg-primary gap-1 flex align-items-center" style={{ boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)", borderRadius: "0.5rem", marginTop: "0.25rem", padding: "1rem 1.25rem"  }} key={thread.id + thread.title}>
-                                                        <div className="text-center opacity-70 text-[#C8C7D8] pr-16" style={{ width: "1.25em", marginLeft: "-0.25rem", fontSize: "1.5rem" }}>
+                                                        <div className="flex text-center items-center opacity-70 text-[#C8C7D8] pl-4 pr-16" style={{ width: "1.25em", marginLeft: "-0.25rem", fontSize: "1.5rem" }}>
                                                             <Icon style={{fontSize: "2.1rem"}}>comments</Icon>
                                                         </div>
 

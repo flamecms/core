@@ -71,10 +71,13 @@ const ForumThread: NextPage = (data: any) => {
                         <div className="flex flex-col pt-4 gap-2">
                             {data.page == 1 &&
                                 <div className="bg-primary rounded-lg p-2 flex flex-col gap-2" style={{boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)"}}>
-                                    <div className="p-3">
-                                        <h3 className="text-xl font-bold tracking-widest">{data.thread.title}</h3>
-                                        <div className="text-sm">
-                                            <h3 className="font-medium">by {data.thread.profiles.full_name}</h3>
+                                    <div className="p-3 flex align-items-center">
+                                    <img referrerPolicy="no-referrer" className="rounded-xl w-12 h-12 mr-2" alt="Avatar name" src={data.thread.profiles.avatar_url} />
+                                        <div>
+                                            <h3 className="text-xl font-bold tracking-widest">{data.thread.title}</h3>
+                                            <div className="text-sm">
+                                                <h3 className="font-medium">by {data.thread.profiles.full_name}</h3>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -100,6 +103,7 @@ const ForumThread: NextPage = (data: any) => {
                                             full_name: reply.profiles.full_name,
                                             created_at: reply.profiles.created_at,
                                             avatar_url: reply.profiles.avatar_url,
+                                            id: reply.profiles.username
                                         }
                                     }/>
                                 )))
@@ -205,6 +209,7 @@ export async function getServerSideProps({query: { page = 1, thread_id }}) {
                 author_uid,
                 profiles (
                     full_name,
+                    username,
                     avatar_url,
                     created_at
                 )
@@ -221,6 +226,7 @@ export async function getServerSideProps({query: { page = 1, thread_id }}) {
                 author_uid,
                 profiles (
                     full_name,
+                    username,
                     avatar_url,
                     created_at
                 )

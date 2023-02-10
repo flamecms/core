@@ -1,6 +1,7 @@
 import { FC } from "react"
 import Icon from "@mui/material/Icon"
 import ReactMarkdown from "react-markdown"
+import Link from "next/link"
 import Grid from "@mui/material/Unstable_Grid2"
 
 interface Props {
@@ -9,7 +10,8 @@ interface Props {
     author: {
         full_name: string,
         avatar_url: string,
-        created_at: Date
+        created_at: Date,
+        id: string
     }
 }
 
@@ -22,7 +24,7 @@ const Thread: React.FC<Props> = (props: Props) => {
                 <div className="w-full">
                     <div className="flex flex-row text-gray-800 dark:text-gray-200 ml-2 w-full">
                         <div className="text-xl font-bold">
-                            {props.author.full_name}
+                            <Link href={`/user/${props.author.id}`}>{props.author.full_name}</Link>
                         </div>
                         <div className="flex-row-reverse ml-auto font-medium text-md">
                             Replied at {new Date(props.updated_at || "1 January 1970").toLocaleDateString("en-GB", { year: 'numeric', month: 'long', day: 'numeric' })}
