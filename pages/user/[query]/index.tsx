@@ -104,8 +104,6 @@ export async function getServerSideProps(context) {
 
     profile.granted_authorities = (grants as unknown) as GrantedAuthority[]
 
-    console.log(profile)
-
     return {
         props: {
             profile

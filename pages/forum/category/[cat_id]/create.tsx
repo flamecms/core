@@ -14,12 +14,12 @@ import Profile from "../../../../types/Profile"
 import { TextField, Button, Pagination } from "@mui/material"
 
 const ForumCategory: NextPage = (data: any) => {
-    const { user, loading, setLoading } = useUser()
-    const [ forumsLoaded, setForumsLoaded ] = useState<boolean>(false)
-    const [ forums, setForums ] = useState<Category>()
+    const { user, loading, setLoading } = useUser();
+    const [ forumsLoaded, setForumsLoaded ] = useState<boolean>(false);
+    const [ forums, setForums ] = useState<Category>();
 
-    const title_content = useRef('')
-    const body_content = useRef('')
+    const title_content = useRef<HTMLInputElement | null>(null);
+    const body_content = useRef<HTMLInputElement | null>(null);
 
     type Category = {
         id: any,
@@ -31,8 +31,6 @@ const ForumCategory: NextPage = (data: any) => {
 
     const router = useRouter();
     const { cat_id } = router.query
-
-    console.log(cat_id)
 
     useEffect(() => {
         async function getForums() {
@@ -47,8 +45,6 @@ const ForumCategory: NextPage = (data: any) => {
             `).eq("slug", cat_id).single()
 
             const category = c as Category
-
-            console.log(category)
 
             setForums(category)
             setForumsLoaded(true)
@@ -99,13 +95,13 @@ const ForumCategory: NextPage = (data: any) => {
                                                     await supabase
                                                             .from("forum_threads")
                                                             .upsert({
-                                                                title: title_content.current.value,
-                                                                body: body_content.current.value,
+                                                                title: title_content.current?.value,
+                                                                body: body_content.current?.value,
                                                                 category_id: 1,
-                                                                author_uid: user.id
+                                                                author_uid: user?.id
                                                             })
 
-                                                        const words = body_content.current.value.split(" ")
+                                                        const words = body_content.current?.value.split(" ")
 
                                                         let notified = []
 
@@ -114,15 +110,13 @@ const ForumCategory: NextPage = (data: any) => {
                                                             if (word.startsWith("@")) {
                                                                 word = word.substring(1)
 
-                                                                const { data, error } = await supabase
+                                                                const { data, error }: { data: any, error: any } = await supabase
                                                                     .from("profiles")
                                                                     .select("id, full_name")
                                                                     .eq("username", word.toLowerCase())
                                                                     .single()
 
-                                                                if (!data || notified.includes(data.id)) return
-
-                                                                notified.push(data.id)
+                                                                if (!data) return
 
                                                                 await supabase
                                                                     .from("notifications")
@@ -131,8 +125,8 @@ const ForumCategory: NextPage = (data: any) => {
                                                                         type: "thread_mention",
                                                                         source: window.location.href,
                                                                         metadata: {
-                                                                            thread_title: document.getElementById("title-box").text,
-                                                                            mentioner: user.user_metadata.full_name
+                                                                            thread_title: document.getElementById("title-box")?.textContent,
+                                                                            mentioner: user?.user_metadata.full_name
                                                                         }
                                                                     })
                                                             }

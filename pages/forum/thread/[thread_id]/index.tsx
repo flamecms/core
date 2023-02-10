@@ -1,24 +1,27 @@
 import { useEffect, useRef, useState } from "react"
+import Icon from "@mui/material/Icon"
 import { useRouter } from 'next/router'
-import { supabase } from "../../../lib/supabase"
-import useUser from "../../../hooks/useUser"
+import { supabase } from "../../../../lib/supabase"
+import useUser from "../../../../hooks/useUser"
 import { TextField, Button, Pagination } from "@mui/material"
 import Link from "next/link"
 import { Send } from '@mui/icons-material'
-import Thread from "../../../components/forum/Thread"
-import Breadcrumbs from "../../../components/Breadcrumbs"
-import OldPagination from "../../../components/Pagination"
-import { getPagination, getPages } from "../../../lib/pagination"
+import Thread from "../../../../components/forum/Thread"
+import Breadcrumbs from "../../../../components/Breadcrumbs"
+import OldPagination from "../../../../components/Pagination"
+import { getPagination, getPages } from "../../../../lib/pagination"
 import ReactMarkdown from "react-markdown"
+import { Forum } from "@mui/icons-material"
+import { NextPage } from "next"
 
 const ITEMS_PER_PAGE = 15
 
-const ForumThread = (data) => {
+const ForumThread: NextPage = (data: any) => {
     const { user } = useUser()
     const router = useRouter()
     const [ contentLoaded, setContentLoaded ] = useState<boolean>(false)
 
-    const reply_content = useRef('')
+    const reply_content = useRef<HTMLInputElement|null>(null)
 
     useEffect(() => {
         supabase
@@ -34,14 +37,27 @@ const ForumThread = (data) => {
             <>
                 <div className="flex flex-col items-center">
                     <div className="lg:min-w-[1300px]">
-                        <Breadcrumbs pages={["Forum", "Thread", data.thread.title]}/>
+                        <Breadcrumbs pages={[
+                            {
+                                displayName: "Forum",
+                                href: "/forum"
+                            },
+                            {
+                                displayName: `Category: ${data.cat?.title}`,
+                                href: `/forum/category/${data.cat?.slug}`
+                            },
+                            {
+                                displayName: `Thread: ${data.thread?.title}`,
+                                href: `/forum/thread/${data.thread?.id}`
+                            }
+                        ]}/>
 
                         <div className="bg-primary rounded-lg p-2 flex flex-row gap-2" style={{boxShadow: "0 0 0 1px rgb(255 255 255 / 10%)"}}>
                             <div>
-                                <img referrerPolicy="no-referrer" className="rounded-xl w-24" alt="Avatar name" src={data.thread.profiles.avatar_url} />
+                                <Forum className="text-6xl rounded-xl bg-[#2b2a33] p-4" />
                             </div>
                             <div className="p-3">
-                                <h3 className="text-xl font-bold tracking-widest">{data.thread.profiles.full_name}</h3>
+                                <h3 className="text-xl font-bold tracking-widest">{data.thread.title}</h3>
                             </div>
 
                             <div className="ml-auto">
@@ -212,10 +228,24 @@ export async function getServerSideProps({query: { page = 1, thread_id }}) {
             .eq("thread_id", thread_id)
             .range(from, to)
 
+    console.log(thread)
+
+    let { data: cat, error: catError } = await supabase
+    .from("forum_categories")
+    .select(`
+        id,
+        title,
+        slug,
+        icon
+    `).eq("id", thread?.category_id).single()
+
+    console.log(cat)
+
     return {
         props: {
             thread,
             replies,
+            cat,
             replyCount: count,
             pages: getPages(count, ITEMS_PER_PAGE),
             page: +page,

@@ -76,7 +76,12 @@ const ForumHome: NextPage = (data: any) => {
     return (
         <div className="flex flex-col items-center">
             <div className="lg:min-w-[1300px]">
-                <Breadcrumbs pages={["Forum"]}/>
+                <Breadcrumbs pages={[
+                    {
+                        displayName: "Forum",
+                        href: "/forum"
+                    }
+                ]}/>
 
                 <div className="flex flex-col pt-4">
                     <div className={forumsLoaded === true ? "hidden" : "flex flex-col gap-y-4"}>
